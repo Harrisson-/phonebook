@@ -14,9 +14,9 @@ use Switch;
 # index   : name OR email OR phone number
 
 my	$contact = {
-    'name'=> '',
-    'email'=> '',
-    'phone'=> '',
+    name=> '',
+    email=> '',
+    phone=> '',
 }
 
 
@@ -42,10 +42,10 @@ sub	verify_file{
 sub	pars_string{
 
     switch (@_[0]) {
-	case (/\w+/ eq "INSERT") {return insert(@_[0])}
-	case (/\w+/ eq "MODIFY") {return modify(@_[0])}
-	case (/\w+/ eq "DELETE") {return delete(@_[0])}
-	case (/\w+/ eq "SEARCH") {return search(@_[0])}
+	case (/\w+/ eq "INSERT") {return insert(@_[0]);}
+	case (/\w+/ eq "MODIFY") {return modify(@_[0]);}
+	case (/\w+/ eq "DELETE") {return delete(@_[0]);}
+	case (/\w+/ eq "SEARCH") {return search(@_[0]);}
 	case (/\w+/ eq "LIST") {return list()}
 	else {return "UNKNOW ACTION"}
     }
