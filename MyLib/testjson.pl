@@ -28,5 +28,5 @@ sub	parsjson {
 }
 
 
-$contact{name} .= 'monique';
+$contact{name;email;phone} .= 'monique','test',"toto';
 print $contact{name};
