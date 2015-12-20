@@ -8,17 +8,36 @@ use JSON;
 use Switch;
 
 # [elem]  : information
-# /elem/  : separator
+# /.../  : separator
 # |index| : index separator
 # ACTION  : action
 # index   : name OR email OR phone number
 
-my	$contact = {
+my	%contact = (
     name=> '',
     email=> '',
     phone=> '',
+);
+
+
+# Add information to hash
+# Parameter : Array(name), Array(email), Array(phone)
+# Return : Hash(contact)
+sub	complete_hash{
+    $contact{name} .= $_[0];
+    $contact{email} .= $_[1];
+    $contact{phone} .= $_[2];
+    return %contact;
 }
 
+# Open JSON file
+# Parameter : nothing
+# Return : Array who contain JSON content
+sub	open_json{
+    $filename = "json.data";
+    open(my $txt, '<', $filename);
+    return(my @result = <$txt>);
+}
 
 # Verify if the phonebook file exist
 # Parameter : nothing
@@ -74,7 +93,7 @@ sub	get_index{
 # return : 1 string
 sub	insert{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
-    
+    complete_hash($name, $email, $phone);
 ##insert elem
 }
 
@@ -85,6 +104,7 @@ sub	insert{
 sub	modify{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
+    complete_hash($name, $email, $phone);
 }
 
 # DELETE|index|[name/email/phonenumber]
