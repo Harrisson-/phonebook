@@ -33,11 +33,11 @@ sub	complete_hash{
 # Open JSON file
 # Parameter : nothing
 # Return : Array who contain JSON content
-sub	open_json{
-    $filename = "json.data";
-    open(my $txt, '<', $filename);
-    return(my @result = <$txt>);
-}
+# sub	open_json{
+#     $filename = "json.data";
+#     open(my $txt, '<', $filename);
+#     return(my @result = <$txt>);
+# }
 
 # Verify if the phonebook file exist
 # Parameter : nothing
@@ -48,8 +48,8 @@ sub	verify_file{
     if ( ! -e $filename)
     {
 	#	open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
-	open($file, '<', $filename) or die "file couldn't be opened, error : $!";
-	return $file;
+	   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
+	   return(my $txt = <$file>);
     }
 #    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
     open($file, '<', $filename) or die "file couldn't be opened, error : $!";
@@ -63,11 +63,11 @@ sub	verify_file{
 sub	pars_string{
 
     switch (@_[0]) {
-	case (/\w+/ eq "INSERT") {return insert(@_[0]);}
-	case (/\w+/ eq "MODIFY") {return modify(@_[0]);}
-	case (/\w+/ eq "DELETE") {return delete(@_[0]);}
-	case (/\w+/ eq "SEARCH") {return search(@_[0]);}
-	case (/\w+/ eq "LIST") {return list()}
+	case (/\w+/ eq "INSERT") {return insert_contact(@_[0]);}
+	case (/\w+/ eq "MODIFY") {return modify_contact(@_[0]);}
+	case (/\w+/ eq "DELETE") {return delete_contact(@_[0]);}
+	case (/\w+/ eq "SEARCH") {return search_contact(@_[0]);}
+	case (/\w+/ eq "LIST") {return list_contact()}
 	else {return "UNKNOW ACTION"}
     }
 }
@@ -93,8 +93,9 @@ sub	get_index{
 # Insert new contact to phonebook
 # Parameter : 1 String
 # return : 1 string
-sub	insert{
+sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
+    my $txt = verify_file();
     complete_hash($name, $email, $phone);
 ##insert elem
 }
@@ -103,29 +104,32 @@ sub	insert{
 # modify 1 contact to phonebook
 # Parameter : 1 String
 # return : 1 string  
-sub	modify{
+sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
+    my $txt = verify_file();
     complete_hash($name, $email, $phone);
+
 }
 
 # DELETE|index|[name/email/phonenumber]
 # delete 1 contact to phonebook
 # Parameter : 1 String
 # return : 1 string
-sub	delete{
+sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index =get_index(@_[0]);
+    my $txt = verify_file();
 }
 
 # SEARCH|index|
 # search 1 contact in phonebook
 # Parameter : 1 String
 # return : 1 string  
-sub	search{
+sub	search_contact{
     my $index =get_index(@_[0]);
-    ##recup JSON txt
-    if ()
+    my $txt = verify_file();
+
     return $result;
 }
 
@@ -133,8 +137,8 @@ sub	search{
 # list all contact in phonebook
 # Parameter : 1 String
 # return : 1 string  
-sub	list{
-    
+sub	list_contact{
+    return(my @txt = verify_file());
 }
 
 1;
