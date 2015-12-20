@@ -47,11 +47,13 @@ sub	verify_file{
     my	$filename = "phonebook.data";
     if ( ! -e $filename)
     {
-	open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
+	#	open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
+	open($file, '<', $filename) or die "file couldn't be opened, error : $!";
 	return $file;
     }
-    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
-    return $file;
+#    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
+    open($file, '<', $filename) or die "file couldn't be opened, error : $!";
+    return(my @txt = <$file>);
 }
   
 
