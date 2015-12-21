@@ -49,7 +49,7 @@ sub	verify_file{
     {
 	#	open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
 	   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
-	   return(my $txt = <$file>);
+	   return(my @txt = <$file>);
     }
 #    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
     open($file, '<', $filename) or die "file couldn't be opened, error : $!";
@@ -95,9 +95,21 @@ sub	get_index{
 # return : 1 string
 sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
-    my $txt = verify_file();
+    my @txt = verify_file();
     complete_hash($name, $email, $phone);
 ##insert elem
+}
+
+# Find Array with pattern match
+# Parameter : Array(JSON), Array(index)
+# return : Array(match)
+sub find_array {
+   for ( my $i = 0; i != @_[0]; i++)#index(@txt[i], $index) == -1) 
+    {
+        if (index(@_[0][i], @_[1]) != -1)
+            return(@_[0][i]);
+    }
+    return;
 }
 
 # MODIFY|index|[name/email/phonenumber]
@@ -107,8 +119,9 @@ sub	insert_contact{
 sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
-    my $txt = verify_file();
+    my @txt = verify_file();
     complete_hash($name, $email, $phone);
+    my $find_result = find_array(@txt, $index);
 
 }
 
@@ -118,8 +131,11 @@ sub	modify_contact{
 # return : 1 string
 sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
-    my $index =get_index(@_[0]);
-    my $txt = verify_file();
+    my $index = get_index(@_[0]);
+    my @txt = verify_file();
+    my $array = find_array;
+    my $find_result = find_array(@txt, $index);
+
 }
 
 # SEARCH|index|
@@ -128,7 +144,8 @@ sub	delete_contact{
 # return : 1 string  
 sub	search_contact{
     my $index =get_index(@_[0]);
-    my $txt = verify_file();
+    my @txt = verify_file();
+    my $find_result = find_array(@txt, $index);
 
     return $result;
 }
