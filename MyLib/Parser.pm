@@ -30,15 +30,6 @@ sub	complete_hash{
     return %contact;
 }
 
-# Open JSON file
-# Parameter : nothing
-# Return : Array who contain JSON content
-# sub	open_json{
-#     $filename = "json.data";
-#     open(my $txt, '<', $filename);
-#     return(my @result = <$txt>);
-# }
-
 # Verify if the phonebook file exist
 # Parameter : nothing
 # Return : File handle
@@ -102,12 +93,12 @@ sub	insert_contact{
 
 # Find Array with pattern match
 # Parameter : Array(JSON), Array(index)
-# return : Array(match)
+# return : index(position in Array)
 sub find_array {
    for ( my $i = 0; i != @_[0]; i++)#index(@txt[i], $index) == -1) 
     {
         if (index(@_[0][i], @_[1]) != -1)
-            return(@_[0][i]);
+            return(i);
     }
     return;
 }
@@ -122,7 +113,8 @@ sub	modify_contact{
     my @txt = verify_file();
     complete_hash($name, $email, $phone);
     my $find_result = find_array(@txt, $index);
-
+    splice(@txt, $find_result,1);
+    
 }
 
 # DELETE|index|[name/email/phonenumber]
@@ -133,9 +125,8 @@ sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
     my @txt = verify_file();
-    my $array = find_array;
     my $find_result = find_array(@txt, $index);
-
+    splice(@txt, $find_result,1);
 }
 
 # SEARCH|index|
