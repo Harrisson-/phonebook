@@ -21,7 +21,7 @@ my	%contact = (
 
 
 # Add information to hash
-# Parameter : Array(name), Array(email), Array(phone)
+# Parameter : string(name), string(email), string(phone)
 # Return : Hash(contact)
 sub	complete_hash{
     $contact{name} .= $_[0];
@@ -31,8 +31,8 @@ sub	complete_hash{
 }
 
 # Verify if the phonebook file exist
-# Parameter : nothing
-# Return : File handle
+# Parameter : 
+# Return : Array(Phonebook Content)
 sub	verify_file{
     my	$file;
     my	$filename = "phonebook.data";
@@ -49,8 +49,8 @@ sub	verify_file{
   
 
 # Send Client message to a good function
-# Parameter : 1 String
-# Return : 1 String
+# Parameter : string(client message)
+# Return : string
 sub	pars_string{
 
     switch (@_[0]) {
@@ -64,8 +64,8 @@ sub	pars_string{
 }
 
 # Parse Protocole to get contact's information
-# Parameter : 1 String
-# return : 3 different strings
+# Parameter : string(client message)
+# return : string(name), string(email), string(phone)
 sub	get_perso_info{
     my $name = @_[0] =~ \/{1}(\w+);
     my $email = @_[0] =~ \/{1}(\w+);
@@ -74,16 +74,16 @@ sub	get_perso_info{
 }
 
 # Get index for search element
-# Parameter : 1 String
-# return : 1 string
+# Parameter : string
+# return : string(index)
 sub	get_index{
     return (my $index = @_[0] =~ \|(\w+)\|);
 }
 
 # INSERT[name/email/phonenumber]
 # Insert new contact to phonebook
-# Parameter : 1 String
-# return : 1 string
+# Parameter : string
+# return : string("OK" or "ERROR")
 sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my @txt = verify_file();
@@ -92,8 +92,8 @@ sub	insert_contact{
 }
 
 # Find Array with pattern match
-# Parameter : Array(JSON), Array(index)
-# return : index(position in Array)
+# Parameter : string(JSON), string(index)
+# return : integer(position in Array)
 sub find_array {
    for ( my $i = 0; i != @_[0]; i++)#index(@txt[i], $index) == -1) 
     {
@@ -105,8 +105,8 @@ sub find_array {
 
 # MODIFY|index|[name/email/phonenumber]
 # modify 1 contact to phonebook
-# Parameter : 1 String
-# return : 1 string  
+# Parameter : string
+# return : string("OK" or "ERROR")  
 sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
@@ -119,8 +119,8 @@ sub	modify_contact{
 
 # DELETE|index|[name/email/phonenumber]
 # delete 1 contact to phonebook
-# Parameter : 1 String
-# return : 1 string
+# Parameter : string
+# return : string("OK" or "ERROR")
 sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_[0]);
     my $index = get_index(@_[0]);
@@ -131,8 +131,8 @@ sub	delete_contact{
 
 # SEARCH|index|
 # search 1 contact in phonebook
-# Parameter : 1 String
-# return : 1 string  
+# Parameter : string
+# return : string(contact information)
 sub	search_contact{
     my $index =get_index(@_[0]);
     my @txt = verify_file();
@@ -143,8 +143,8 @@ sub	search_contact{
 
 # LIST
 # list all contact in phonebook
-# Parameter : 1 String
-# return : 1 string  
+# Parameter : string
+# return : Array(all contact information)  
 sub	list_contact{
     return(my @txt = verify_file());
 }

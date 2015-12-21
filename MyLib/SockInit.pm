@@ -3,22 +3,33 @@
 
 use strict;
 use warnings;
+use IO::Select;
+use IO::Socket;
 
 
+# Get Port
+# Parameter : 
+# Return : string(Port)
 sub get_port {
     print "Entry Port :";
     my $port = <STDIN>;
     return ($port);
 }
 
+# Get IP
+# Parameter :
+# Return : string(IP)
 sub get_ip {
     print "Entry IP :";
     my $ip = <STDIN>;
     return ($ip);
 }
 
+# Initialize Client Socket
+# Parameter : string(Port), string(IP)
+# Return : Socket
 sub socket_server_init {
-    my $sock = new(
+    my $sock = new IO::Socket::INET(
 	LocalHost = @_[0],
 	LocalPort = @_[1],
 	Proto = "TCP",
@@ -28,17 +39,16 @@ sub socket_server_init {
     return $sock OR die "Problem Init server socket";  
 }
 
+# Initialize Server Socket
+# Parameter : string(Port), string(IP)
+# Return : Socket
 sub socket_client_init {
-    my $sock = new (
+    my $sock = new IO::Socket::INET(
 	LocalHost = @_[0],
 	LocalPort = @_[1],
 	Proto = "TCP",
 	);
     return $sock OR die "Problem init client socket";
-}
-
-sub Sock_read_server {
-
 }
 
 1;
