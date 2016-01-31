@@ -29,26 +29,28 @@ sub get_ip {
 # Parameter : string(Port), string(IP)
 # Return : Socket
 sub socket_server_init {
+    my ($ip, $port) = @_;
     my $sock = new IO::Socket::INET(
-	LocalHost = @_[0],
-	LocalPort = @_[1],
-	Proto = "TCP",
-	Listen = 5,
-	Reuse = 1,
+	LocalHost => $ip,
+	LocalPort => $port,
+	Proto => "TCP",
+	Listen => 5,
+	Reuse => 1,
 	);
-    return $sock OR die "Problem Init server socket";  
+    return ($sock or die "Problem Init server socket");  
 }
 
 # Initialize Server Socket
 # Parameter : string(Port), string(IP)
 # Return : Socket
 sub socket_client_init {
+    my ($ip, $port) = @_;
     my $sock = new IO::Socket::INET(
-	LocalHost = @_[0],
-	LocalPort = @_[1],
-	Proto = "TCP",
+	LocalHost => $ip,
+	LocalPort => $port,
+	Proto => "TCP",
 	);
-    return $sock OR die "Problem init client socket";
+    return ($sock or die "Problem init client socket");
 }
 
 1;

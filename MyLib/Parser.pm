@@ -53,11 +53,11 @@ sub	verify_file{
 # Return : string
 sub	pars_string{
 
-    switch (@_[0]) {
-	case (/\w+/ eq "INSERT") {return insert_contact(@_[0]);}
-	case (/\w+/ eq "MODIFY") {return modify_contact(@_[0]);}
-	case (/\w+/ eq "DELETE") {return delete_contact(@_[0]);}
-	case (/\w+/ eq "SEARCH") {return search_contact(@_[0]);}
+    switch (@_) {
+	case (/\w+/ eq "INSERT") {return insert_contact(@_);}
+	case (/\w+/ eq "MODIFY") {return modify_contact(@_);}
+	case (/\w+/ eq "DELETE") {return delete_contact(@_);}
+	case (/\w+/ eq "SEARCH") {return search_contact(@_);}
 	case (/\w+/ eq "LIST") {return list_contact()}
 	else {return "UNKNOW ACTION"}
     }
@@ -67,9 +67,9 @@ sub	pars_string{
 # Parameter : string(client message)
 # return : string(name), string(email), string(phone)
 sub	get_perso_info{
-    my $name = @_[0] =~ \/{1}(\w+);
-    my $email = @_[0] =~ \/{1}(\w+);
-    my $phone = @_[0] =~ \/(\d+);
+    my $name = grep(/\[(\w+)/, @_);
+    my $email = grep(/(?:\/(.*)\/)/, @_);
+    my $phone = grep(/(\d+)/, @_);
     return (\$name, \$email, \$phone);
 }
 
@@ -77,7 +77,7 @@ sub	get_perso_info{
 # Parameter : string
 # return : string(index)
 sub	get_index{
-    return (my $index = @_[0] =~ \|(\w+)\|);
+    return (my $index = grep(/\|(\w+)\|/, @_);
 }
 
 # INSERT[name/email/phonenumber]
@@ -85,7 +85,7 @@ sub	get_index{
 # Parameter : string
 # return : string("OK" or "ERROR")
 sub	insert_contact{
-    my ($name, $email, $phone) = get_perso_info(@_[0]);
+    my ($name, $email, $phone) = get_perso_info(@_);
     my @txt = verify_file();
     complete_hash($name, $email, $phone);
 ##insert elem
@@ -138,7 +138,7 @@ sub	search_contact{
     my @txt = verify_file();
     my $find_result = find_array(@txt, $index);
 
-    return $result;
+    return $find_result;
 }
 
 # LIST

@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 #server.pl
 
-use MyLib;
+use MyLib::SockInit;
+use MyLib::Parser;
 
 my $port = get_port();
 my $ip = get_ip();
