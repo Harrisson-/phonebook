@@ -95,10 +95,13 @@ sub	insert_contact{
 # Parameter : string(JSON), string(index)
 # return : integer(position in Array)
 sub find_array {
-   for (my $i = 0; i != @_[0]; $i++)#index(@txt[i], $index) == -1) 
+    my (@txt, $index) = @_;
+    my $size = @txt;
+    for (my $i = 0; $i != $size; $i++)#index(@txt[i], $index) == -1) 
     {
-        if (index(@_[0][$i], @_[1]) != -1)
-            return($i);
+        if (index(@txt[$i], $index) != -1) {
+            return(@txt[$i]);
+	}
     }
     return;
 }
@@ -108,11 +111,11 @@ sub find_array {
 # Parameter : string
 # return : string("OK" or "ERROR")  
 sub	modify_contact{
-    my ($name, $email, $phone) = get_perso_info(@_[0]);
-    my $index = get_index(@_[0]);
+    my ($name, $email, $phone) = get_perso_info(@_);
+    my $index = get_index(@_);
     my @txt = verify_file();
     complete_hash($name, $email, $phone);
-    my $find_result = find_array(@txt, $index);
+    my ($find_result) = find_array(@txt, $index);
     splice(@txt, $find_result,1);
     
 }
@@ -122,10 +125,10 @@ sub	modify_contact{
 # Parameter : string
 # return : string("OK" or "ERROR")
 sub	delete_contact{
-    my ($name, $email, $phone) = get_perso_info(@_[0]);
-    my $index = get_index(@_[0]);
+    my ($name, $email, $phone) = get_perso_info(@_);
+    my $index = get_index(@_);
     my @txt = verify_file();
-    my $find_result = find_array(@txt, $index);
+    my ($find_result) = find_array(@txt, $index);
     splice(@txt, $find_result,1);
 }
 
@@ -134,9 +137,9 @@ sub	delete_contact{
 # Parameter : string
 # return : string(contact information)
 sub	search_contact{
-    my $index =get_index(@_[0]);
+    my $index =get_index(@_);
     my @txt = verify_file();
-    my $find_result = find_array(@txt, $index);
+    my ($find_result) = find_array(@txt, $index);
 
     return $find_result;
 }
