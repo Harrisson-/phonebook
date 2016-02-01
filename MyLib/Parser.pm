@@ -77,7 +77,7 @@ sub	get_perso_info{
 # Parameter : string
 # return : string(index)
 sub	get_index{
-    return (my $index = grep(/\|(\w+)\|/, @_);
+    return (my $index = grep(/\|(\w+)\|/, @_));
 }
 
 # INSERT[name/email/phonenumber]
@@ -95,10 +95,10 @@ sub	insert_contact{
 # Parameter : string(JSON), string(index)
 # return : integer(position in Array)
 sub find_array {
-   for ( my $i = 0; i != @_[0]; i++)#index(@txt[i], $index) == -1) 
+   for (my $i = 0; i != @_[0]; $i++)#index(@txt[i], $index) == -1) 
     {
-        if (index(@_[0][i], @_[1]) != -1)
-            return(i);
+        if (index(@_[0][$i], @_[1]) != -1)
+            return($i);
     }
     return;
 }
