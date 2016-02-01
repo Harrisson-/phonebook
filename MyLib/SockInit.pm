@@ -37,7 +37,7 @@ sub socket_server_init {
 	Listen => 5,
 	Reuse => 1,
 	);
-    return ($sock or die "Problem Init server socket");  
+    return ($sock or die "Problem Init server socket $!");  
 }
 
 # Initialize Server Socket
@@ -45,12 +45,14 @@ sub socket_server_init {
 # Return : Socket
 sub socket_client_init {
     my ($ip, $port) = @_;
+    print($ip);
+    print($port);
     my $sock = new IO::Socket::INET(
-	LocalHost => $ip,
-	LocalPort => $port,
+	PeerHost => $ip,
+	PeerPort => $port,
 	Proto => "TCP",
 	);
-    return ($sock or die "Problem init client socket");
+    return ($sock or die "Problem init client socket $!");
 }
 
 1;
