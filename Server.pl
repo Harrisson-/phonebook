@@ -18,7 +18,10 @@ sub Sock_read_server {
     $read_set->add($sock);
     while(1)
     {
-	my $rh_set = IO::Select->select($read_set, undef, undef, 0);
+	my ($rh_set) = IO::Select->select($read_set, undef, undef, 0);
+	if ($rh_set != 0) {
+	    print $rh_set;
+	}
 	foreach $rh (@$rh_set) {
 	    print "in foreach\n";
 	    if ($rh == $sock)
