@@ -5,7 +5,7 @@ use MyLib::SockInit;
 
 my $port = get_port();
 my $ip = get_ip();
-my $sock = socket_client_init($ip, $port);
+my ($sock) = socket_client_init($ip, $port);
 
 my $mess = <STDIN>;
 $sock->send($mess);

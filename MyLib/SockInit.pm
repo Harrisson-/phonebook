@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 use IO::Select;
-use IO::Socket;
+use IO::Socket::INET;
 
 
 # Get Port
@@ -45,8 +45,6 @@ sub socket_server_init {
 # Return : Socket
 sub socket_client_init {
     my ($ip, $port) = @_;
-    print($ip);
-    print($port);
     my $sock = new IO::Socket::INET(
 	PeerHost => $ip,
 	PeerPort => $port,
