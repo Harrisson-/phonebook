@@ -21,24 +21,18 @@ sub Sock_read_server {
     while(1)
     {
 	my ($rh_set) = IO::Select->select($read_set, undef, undef, 5);
-	print "sock : $sock\n";
-	foreach $rh (@$rh_set) {
-	    print "in foreach\n";
+       	foreach $rh (@$rh_set) {
 	    if ($rh == $sock)
 	    {
-		print "$rh\n";
 		my $ns = $rh->accept() or die "accept | $!\n";
-		print"after accept\n";
 		$read_set->add($ns);
 	    }
 	    else
 	    {
-		print "else\n";
 		my $buf = <$rh>;
 		if ($buf)
 		{
-		    #		    my $txt = pars_string($buf);
-		    print($buff);
+		    my $txt = pars_string($buf);
 		}
 		else
 		{
