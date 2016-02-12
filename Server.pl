@@ -3,7 +3,6 @@
 
 use MyLib::SockInit;
 use MyLib::Parser;
-use IO::Socket;
 
 my $port = get_port();
 my $ip = get_ip();
@@ -33,6 +32,7 @@ sub Sock_read_server {
 		if ($buf)
 		{
 		    my $txt = pars_string($buf);
+		    print "$txt\n";
 		}
 		else
 		{
