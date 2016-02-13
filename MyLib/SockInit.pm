@@ -11,8 +11,9 @@ use IO::Socket::INET;
 # Parameter : 
 # Return : string(Port)
 sub get_port {
-    print "Entry Port :";
-    my $port = <STDIN>;
+#    print "Entry Port :";
+    my $port = "5000";
+#    my $port = <STDIN>;
     return ($port);
 }
 
@@ -20,8 +21,9 @@ sub get_port {
 # Parameter :
 # Return : string(IP)
 sub get_ip {
-    print "Entry IP :";
-    my $ip = <STDIN>;
+#    print "Entry IP :";
+    my $ip = "127.0.0.1";
+#    my $ip = <STDIN>;
     return ($ip);
 }
 

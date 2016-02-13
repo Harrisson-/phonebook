@@ -52,14 +52,13 @@ sub	verify_file{
 # Parameter : string(client message)
 # Return : string
 sub	pars_string{
-
-    print ("@_\n");
-    switch (@_) {
-	case (/\w+/ eq "INSERT") {return "INSERT OKAY";} #{return insert_contact(@_);}
-	case (/\w+/ eq "MODIFY") {return modify_contact(@_);}
-	case (/\w+/ eq "DELETE") {return delete_contact(@_);}
-	case (/\w+/ eq "SEARCH") {return search_contact(@_);}
-	case (/\w+/ eq "LIST") {return list_contact();}
+    my ($cmd) = $_[0] =~ /(\w+)/i;
+    switch ($cmd) {
+	case ("INSERT") {return insert_contact(@_);}
+	case ("MODIFY") {return modify_contact(@_);}
+	case ("DELETE") {return delete_contact(@_);}
+	case ("SEARCH") {return search_contact(@_);}
+	case ("LIST") {return list_contact();}
 	else {return "UNKNOW ACTION";}
     }
 }
