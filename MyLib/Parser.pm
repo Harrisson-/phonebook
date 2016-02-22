@@ -67,9 +67,10 @@ sub	pars_string{
 # Parameter : string(client message)
 # return : string(name), string(email), string(phone)
 sub	get_perso_info{
-    my $name = grep(/\[(\w+)/, @_);
-    my $email = grep(/(?:\/(.*)\/)/, @_);
-    my $phone = grep(/(\d+)/, @_);
+    my ($name) = $_[0] =~ m/\[(\w+)/;
+    print "name_1 : $name\n";
+    my ($email) = $_[0] =~ /(?:\/(.*)\/)/;
+    my ($phone) = $_[0] =~ /(\d+)/;
     return (\$name, \$email, \$phone);
 }
 
@@ -77,7 +78,7 @@ sub	get_perso_info{
 # Parameter : string
 # return : string(index)
 sub	get_index{
-    return (my $index = grep(/\|(\w+)\|/, @_));
+    return (my ($index) = $_[0] =~ /\|(\w+)\|/);
 }
 
 # INSERT[name/email/phonenumber]
@@ -85,9 +86,11 @@ sub	get_index{
 # Parameter : string
 # return : string("OK" or "ERROR")
 sub	insert_contact{
+    print "insert contact()\n";
     my ($name, $email, $phone) = get_perso_info(@_);
-    my @txt = verify_file();
-    complete_hash($name, $email, $phone);
+    print"name : $name\n email : $email\n phone : $phone\n";
+#    my @txt = verify_file();
+#    complete_hash($name, $email, $phone);
 ##insert elem
 }
 
