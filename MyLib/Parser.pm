@@ -24,9 +24,9 @@ my	%contact = (
 # Parameter : string(name), string(email), string(phone)
 # Return : Hash(contact)
 sub	complete_hash{
-    $contact{name} .= $_[0];
-    $contact{email} .= $_[1];
-    $contact{phone} .= $_[2];
+    $contact{name} = $_[0];
+    $contact{email} = $_[1];
+    $contact{phone} = $_[2];
     return %contact;
 }
 
@@ -35,11 +35,11 @@ sub	complete_hash{
 # Return : Array(Phonebook Content)
 sub	verify_file{
     my	$file;
-    my	$filename = "phonebook.data";
+    my	$filename = "phonebook.json";
     if ( ! -e $filename)
     {
-	#	open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
-	   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
+		open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
+	#   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
 	   return(my @txt = <$file>);
     }
 #    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
@@ -68,10 +68,9 @@ sub	pars_string{
 # return : string(name), string(email), string(phone)
 sub	get_perso_info{
     my ($name) = $_[0] =~ m/\[(\w+)/;
-    print "name_1 : $name\n";
     my ($email) = $_[0] =~ /(?:\/(.*)\/)/;
-    my ($phone) = $_[0] =~ /(\d+)/;
-    return (\$name, \$email, \$phone);
+    my ($phone) = $_[0] =~ /\/(\d+)\]/;
+    return ($name, $email, $phone);
 }
 
 # Get index for search element
@@ -86,11 +85,9 @@ sub	get_index{
 # Parameter : string
 # return : string("OK" or "ERROR")
 sub	insert_contact{
-    print "insert contact()\n";
     my ($name, $email, $phone) = get_perso_info(@_);
-    print"name : $name\n email : $email\n phone : $phone\n";
-#    my @txt = verify_file();
-#    complete_hash($name, $email, $phone);
+    my @txt = verify_file();
+    complete_hash($name, $email, $phone);
 ##insert elem
 }
 

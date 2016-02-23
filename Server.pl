@@ -31,8 +31,8 @@ sub Sock_read_server {
 		my $buf = <$rh>;
 		if ($buf)
 		{
-		    my $txt = pars_string($buf);
-		    print "$txt\n";
+		    my ($txt) = pars_string($buf);
+		    print "return parser : $txt\n";
 		}
 		else
 		{
