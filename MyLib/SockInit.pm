@@ -6,10 +6,11 @@ use warnings;
 use IO::Select;
 use IO::Socket::INET;
 
-
-# Get Port
-# Parameter : 
-# Return : string(Port)
+=pod
+ Get Port
+ Parameter : 
+ Return : string(Port)
+=cut
 sub get_port {
 #    print "Entry Port :";
     my $port = "5000";
@@ -17,9 +18,11 @@ sub get_port {
     return ($port);
 }
 
-# Get IP
-# Parameter :
-# Return : string(IP)
+=pod
+ Get IP
+ Parameter :
+ Return : string(IP)
+=cut
 sub get_ip {
 #    print "Entry IP :";
     my $ip = "127.0.0.1";
@@ -27,9 +30,11 @@ sub get_ip {
     return ($ip);
 }
 
-# Initialize Client Socket
-# Parameter : string(Port), string(IP)
-# Return : Socket
+=pod
+ Initialize Client Socket
+ Parameter : string(Port), string(IP)
+ Return : Socket
+=cut
 sub socket_server_init {
     my ($ip, $port) = @_;
     my $sock = new IO::Socket::INET(
@@ -42,9 +47,11 @@ sub socket_server_init {
     return ($sock or die "Problem Init server socket $!");  
 }
 
-# Initialize Server Socket
-# Parameter : string(Port), string(IP)
-# Return : Socket
+=pod
+ Initialize Server Socket
+ Parameter : string(Port), string(IP)
+ Return : Socket
+=cut
 sub socket_client_init {
     my ($ip, $port) = @_;
     my $sock = new IO::Socket::INET(

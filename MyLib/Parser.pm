@@ -7,11 +7,13 @@ use warnings;
 use JSON;
 use Switch;
 
-# [elem]  : information
-# /.../  : separator
-# |index| : index separator
-# ACTION  : action
-# index   : name OR email OR phone number
+=pod
+ [elem]  : information
+ /.../  : separator
+ |index| : index separator
+ ACTION  : action
+ index   : name OR email OR phone number
+=cut
 
 my	%contact = (
     name=> '',
@@ -20,9 +22,12 @@ my	%contact = (
 );
 
 
-# Add information to hash
-# Parameter : string(name), string(email), string(phone)
-# Return : Hash(contact)
+#OK
+=pod
+ Add information to hash
+ Parameter : string(name), string(email), string(phone)
+ Return : Hash(contact)
+=cut
 sub	complete_hash{
     $contact{name} = $_[0];
     $contact{email} = $_[1];
@@ -30,9 +35,13 @@ sub	complete_hash{
     return %contact;
 }
 
-# Verify if the phonebook file exist
-# Parameter : 
-# Return : Array(Phonebook Content)
+#OK
+=pod
+ Verify if the phonebook file exist
+ Parameter : 
+ Return : Array(Phonebook Content)
+=cut
+
 sub	verify_file{
     my	$file;
     my	$filename = "phonebook.json";
@@ -48,9 +57,12 @@ sub	verify_file{
 }
   
 
-# Send Client message to a good function
-# Parameter : string(client message)
-# Return : string
+#OK
+=pod
+ Send Client message to a good function
+ Parameter : string(client message)
+ Return : string
+=cut
 sub	pars_string{
     my ($cmd) = $_[0] =~ /(\w+)/i;
     switch ($cmd) {
@@ -63,9 +75,12 @@ sub	pars_string{
     }
 }
 
-# Parse Protocole to get contact's information
-# Parameter : string(client message)
-# return : string(name), string(email), string(phone)
+#OK
+=pod
+ Parse Protocole to get contact's information
+ Parameter : string(client message)
+ return : string(name), string(email), string(phone)
+=cut
 sub	get_perso_info{
     my ($name) = $_[0] =~ m/\[(\w+)/;
     my ($email) = $_[0] =~ /(?:\/(.*)\/)/;
@@ -73,27 +88,35 @@ sub	get_perso_info{
     return ($name, $email, $phone);
 }
 
-# Get index for search element
-# Parameter : string
-# return : string(index)
+#OK
+=pod
+ Get index for search element
+ Parameter : string
+ return : string(index)
+=cut
 sub	get_index{
     return (my ($index) = $_[0] =~ /\|(\w+)\|/);
 }
 
-# INSERT[name/email/phonenumber]
-# Insert new contact to phonebook
-# Parameter : string
-# return : string("OK" or "ERROR")
+=pod
+ INSERT[name/email/phonenumber]
+ Insert new contact to phonebook
+ Parameter : string
+ return : string("OK" or "ERROR")
+=cut
 sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
     my @txt = verify_file();
     complete_hash($name, $email, $phone);
+    
 ##insert elem
 }
 
-# Find Array with pattern match
-# Parameter : string(JSON), string(index)
-# return : integer(position in Array)
+=pod
+ Find Array with pattern match
+ Parameter : string(JSON), string(index)
+ return : integer(position in Array)
+=cut
 sub find_array {
     my (@txt, $index) = @_;
     my $size = @txt;
@@ -106,24 +129,29 @@ sub find_array {
     return;
 }
 
-# MODIFY|index|[name/email/phonenumber]
-# modify 1 contact to phonebook
-# Parameter : string
-# return : string("OK" or "ERROR")  
+=pod
+ MODIFY|index|[name/email/phonenumber]
+ modify 1 contact to phonebook
+ Parameter : string
+ return : string("OK" or "ERROR")
+=cut
 sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
-    my $index = get_index(@_);
+    my ($index) = get_index(@_);
     my @txt = verify_file();
-    complete_hash($name, $email, $phone);
+#    complete_hash($name, $email, $phone);
     my ($find_result) = find_array(@txt, $index);
-    splice(@txt, $find_result,1);
+    print "$find_result\n";
+#    splice(@txt, $find_result,1);
     
 }
 
-# DELETE|index|[name/email/phonenumber]
-# delete 1 contact to phonebook
-# Parameter : string
-# return : string("OK" or "ERROR")
+=pod
+ DELETE|index|[name/email/phonenumber]
+ delete 1 contact to phonebook
+ Parameter : string
+ return : string("OK" or "ERROR")
+=cut
 sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
     my $index = get_index(@_);
@@ -132,10 +160,12 @@ sub	delete_contact{
     splice(@txt, $find_result,1);
 }
 
-# SEARCH|index|
-# search 1 contact in phonebook
-# Parameter : string
-# return : string(contact information)
+=pod
+ SEARCH|index|
+ search 1 contact in phonebook
+ Parameter : string
+ return : string(contact information)
+=cut
 sub	search_contact{
     my $index =get_index(@_);
     my @txt = verify_file();
@@ -144,10 +174,12 @@ sub	search_contact{
     return $find_result;
 }
 
-# LIST
-# list all contact in phonebook
-# Parameter : string
-# return : Array(all contact information)  
+=pod
+ LIST
+ list all contact in phonebook
+ Parameter : string
+ return : Array(all contact information)  
+=cut
 sub	list_contact{
     return(my @txt = verify_file());
 }
