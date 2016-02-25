@@ -4,7 +4,8 @@
 use strict;
 use warnings;
 
-use JSON;
+use Data::Dumper;
+use Cpanel::JSON::XS;
 use Switch;
 
 =pod
@@ -26,13 +27,11 @@ my	%contact = (
 =pod
  Add information to hash
  Parameter : string(name), string(email), string(phone)
- Return : Hash(contact)
 =cut
 sub	complete_hash{
     $contact{name} = $_[0];
     $contact{email} = $_[1];
     $contact{phone} = $_[2];
-    return %contact;
 }
 
 #OK
@@ -44,15 +43,17 @@ sub	complete_hash{
 
 sub	verify_file{
     my	$file;
-    my	$filename = "phonebook.json";
+    my	$filename = "phonebook.json"; #Global variable
     if ( ! -e $filename)
     {
 		open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
+		close $file;
 	#   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
-	   return(my @txt = <$file>);
+	   return((my @txt = <$file>), $filename);
     }
 #    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
     open($file, '<', $filename) or die "file couldn't be opened, error : $!";
+    close $file;
     return(my @txt = <$file>);
 }
   
@@ -98,6 +99,27 @@ sub	get_index{
     return (my ($index) = $_[0] =~ /\|(\w+)\|/);
 }
 
+#OK
+=pod
+ Return json text from new hash contact
+ Parameter : 
+ Return : string(contact JSON)
+=cut
+sub	create_json_elem {
+    return (encode_json(\%contact));
+}
+
+=pod
+ Add
+=cut
+sub	append_in_json_file {
+    my ($filename, $json, @txt) = @_;
+    push @txt, $json;
+    open(my $fh '>' $filename) or die "error during appending json in file : $!";
+    print $fh @txt;
+    close $fh;
+}
+    
 =pod
  INSERT[name/email/phonenumber]
  Insert new contact to phonebook
@@ -106,9 +128,10 @@ sub	get_index{
 =cut
 sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
-    my @txt = verify_file();
+    my (@txt, $filename) = verify_file();
     complete_hash($name, $email, $phone);
-    
+    my $json = create_json_elem();
+    append_in_json_file($filename, $json, @txt);
 ##insert elem
 }
 
