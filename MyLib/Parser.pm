@@ -42,19 +42,24 @@ sub	complete_hash{
 =cut
 
 sub	verify_file{
-    my	$file;
-    my	$filename = "phonebook.json"; #Global variable
+    my	$fh;
+    my	$filename = "phonebook.json";
+=pod
     if ( ! -e $filename)
     {
-		open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
-		close $file;
+	print "-e filename";
+	open($fh, '>>', $filename) or die "file couldn't be opened, error : $!";
+	my @txt = <$fh>;
+	close $fh;
 	#   open($file, '<', $filename) or die "file couldn't be opened, error : $!";
-	   return((my @txt = <$file>), $filename);
+	return(@txt, $filename);
     }
+=cut
 #    open($file, '>>', $filename) or die "file couldn't be opened, error : $!";
-    open($file, '<', $filename) or die "file couldn't be opened, error : $!";
-    close $file;
-    return(my @txt = <$file>);
+    open($fh, '<', $filename) or die "file couldn't be opened, error : $!";
+    my @txt = <$fh>;
+    close $fh;
+    return ($filename, @txt);
 }
   
 
@@ -115,7 +120,7 @@ sub	create_json_elem {
 sub	append_in_json_file {
     my ($filename, $json, @txt) = @_;
     push @txt, $json;
-    open(my $fh '>' $filename) or die "error during appending json in file : $!";
+    open(my $fh, '>', $filename) or die "error during appending json in file : $!";
     print $fh @txt;
     close $fh;
 }
@@ -128,9 +133,11 @@ sub	append_in_json_file {
 =cut
 sub	insert_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
-    my (@txt, $filename) = verify_file();
+    my ($filename, @txt) = verify_file();
+    print "@txt";
+    print "\n";
     complete_hash($name, $email, $phone);
-    my $json = create_json_elem();
+    my ($json) = create_json_elem();
     append_in_json_file($filename, $json, @txt);
 ##insert elem
 }
