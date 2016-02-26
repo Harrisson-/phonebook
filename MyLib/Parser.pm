@@ -139,7 +139,6 @@ sub	insert_contact{
     complete_hash($name, $email, $phone);
     my ($json) = create_json_elem();
     append_in_json_file($filename, $json, @txt);
-##insert elem
 }
 
 =pod
@@ -149,6 +148,9 @@ sub	insert_contact{
 =cut
 sub find_array {
     my (@txt, $index) = @_;
+    grep -o $index, @txt;
+    print "\@test : @test \n";
+=pod
     my $size = @txt;
     for (my $i = 0; $i != $size; $i++)#index(@txt[i], $index) == -1) 
     {
@@ -156,7 +158,8 @@ sub find_array {
             return(@txt[$i]);
 	}
     }
-    return;
+=cut
+    return "find array return \n";
 }
 
 =pod
@@ -169,7 +172,7 @@ sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
     my ($index) = get_index(@_);
     my @txt = verify_file();
-#    complete_hash($name, $email, $phone);
+    complete_hash($name, $email, $phone);
     my ($find_result) = find_array(@txt, $index);
     print "$find_result\n";
 #    splice(@txt, $find_result,1);
