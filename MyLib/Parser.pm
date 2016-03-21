@@ -148,17 +148,13 @@ sub	insert_contact{
 =cut
 sub find_array {
     my (@txt, $index) = @_;
-    grep -o $index, @txt;
-    print "\@test : @test \n";
-=pod
-    my $size = @txt;
-    for (my $i = 0; $i != $size; $i++)#index(@txt[i], $index) == -1) 
-    {
-        if (index(@txt[$i], $index) != -1) {
-            return(@txt[$i]);
+    foreach my $line (@txt) {
+	if ($line =~ $index) {
+	    print "\$line : $line\n";
+	    return "FIND\n";
+	    # select first element
 	}
     }
-=cut
     return "find array return \n";
 }
 
@@ -171,7 +167,7 @@ sub find_array {
 sub	modify_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
     my ($index) = get_index(@_);
-    my @txt = verify_file();
+    my ($filename, @txt) = verify_file();
     complete_hash($name, $email, $phone);
     my ($find_result) = find_array(@txt, $index);
     print "$find_result\n";
@@ -188,7 +184,7 @@ sub	modify_contact{
 sub	delete_contact{
     my ($name, $email, $phone) = get_perso_info(@_);
     my $index = get_index(@_);
-    my @txt = verify_file();
+    my ($filename, @txt) = verify_file();
     my ($find_result) = find_array(@txt, $index);
     splice(@txt, $find_result,1);
 }
@@ -201,7 +197,7 @@ sub	delete_contact{
 =cut
 sub	search_contact{
     my $index =get_index(@_);
-    my @txt = verify_file();
+    my ($filename, @txt) = verify_file();
     my ($find_result) = find_array(@txt, $index);
 
     return $find_result;
@@ -214,7 +210,7 @@ sub	search_contact{
  return : Array(all contact information)  
 =cut
 sub	list_contact{
-    return(my @txt = verify_file());
+    return(my ($filename, @txt) = verify_file());
 }
 
 1;
