@@ -145,9 +145,9 @@ sub	insert_contact{
  return : integer(position in Array)
 =cut
 sub find_array {
-    my (@txt, $index) = @_;
-    my @txt = @{@_[0]);
-    my $index = $_[1];
+    my (@txt, $index) = @_; #problem with param reference to txt
+    my @txt = @{@_[0]); #WTF?
+    my $index = $_[1]; #okay
     my	$i = 0;
     print('\@txt : @txt\n');
     foreach my $line (@txt) {
